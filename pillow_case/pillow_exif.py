@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*
 
 import PIL
+import hashlib
 import string
 import argparse
 from PIL import Image
@@ -15,14 +16,15 @@ args = parser.parse_args()
 def file_information(filepath):
     try:
         image = Image.open(filepath)
-
+        md5sum = hashlib.md5(open(filepath, "rb").read())
         print(f'File_name:          {image.filename}')
         print(f'Size:               {image.size}')
         print(f'Width:              {image.width}')
         print(f'Height:             {image.height}')
         print(f'Format:             {image.format}')
         print(f'Format_description: {image.format_description}')
-        print(f'Mode:               {image.mode} \n')
+        print(f'Mode:               {image.mode}')
+        print(f'MD5sum:             {md5sum.hexdigest()} \n')
     except IOError as io_e:
         print(io_e)
     except ValueError as v_e:
