@@ -5,8 +5,7 @@ __pycache__/
 
 # locals
 .idea/
-exifread_case/.local_ignore
-pillow_case/pillow_exif_future.py
+.local/*
 Notes.md
 
 # C extensions

@@ -13,16 +13,12 @@ from PIL.ExifTags import TAGS
 
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="file to extract exif from")
+parser.add_argument("outfile", help="file to write case json to")
 args = parser.parse_args()
 
 __version__ = "0.1.0"
 
 _logger = logging.getLogger(os.path.basename(__file__))
-
-parser = argparse.ArgumentParser()
-parser.add_argument("file", help="file to extract exif data from")
-args = parser.parse_args()
-
 
 NS_RDF = rdflib.RDF
 NS_RDFS = rdflib.RDFS
@@ -108,7 +104,8 @@ def main():
 
     graph = json.dumps(graphed, indent=4)
     case_json = json.loads(graph.encode('utf-8'))
-    print(case_json)
+    with open(args.outfile, 'w') as file:
+        file.write(case_json)
 
 
 if __name__ == "__main__":
