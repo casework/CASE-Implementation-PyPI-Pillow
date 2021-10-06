@@ -1,4 +1,4 @@
-[![CASE-Implementation-PyPI-Pillow](https://github.com/casework/CASE-Implementation-PyPI-Pillow/actions/workflows/python-package.yml/badge.svg)](https://github.com/casework/CASE-Implementation-PyPI-Exifread/actions/workflows/python-package.yml)
+[![CASE-Implementation-PyPI-Pillow](https://github.com/casework/CASE-Implementation-PyPI-Pillow/actions/workflows/python-package.yml/badge.svg)](https://github.com/casework/CASE-Implementation-PyPI-Pillow/actions/workflows/python-package.yml)
 
 
 # CASE-Implementation-Pillow
