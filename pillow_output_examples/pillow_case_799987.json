@@ -501,7 +501,7 @@
       "@type": "uco-observable:FileFacet",
       "uco-observable:extension": "jpg",
       "uco-observable:fileName": "799987.jpg",
-      "uco-observable:filePath": "/home/rob/CASE-community/CASE-Implementation-PyPI-Pillow/799987.jpg",
+      "uco-observable:filePath": "/home/user/directory/CASE-Implementation-PyPI-Pillow/799987.jpg",
       "uco-observable:sizeInBytes": 1526008
     }
   ]
