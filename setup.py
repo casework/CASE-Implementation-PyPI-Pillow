@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Setup.py initialise script"""
 
 from setuptools import setup
 

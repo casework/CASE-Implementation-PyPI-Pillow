@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*
 
+"""Pillow to Case rdflib node maker"""
+
 import os
 import rdflib
 import logging
@@ -15,6 +17,7 @@ NS_UCO_VOCABULARY = rdflib.Namespace("https://unifiedcyberontology.org/ontology/
 NS_XSD = rdflib.namespace.XSD
 
 _logger = logging.getLogger(os.path.basename(__file__))
+_logger.setLevel(level=logging.INFO)
 
 
 def n_cyber_object_to_node(graph):
@@ -264,3 +267,20 @@ def controlled_dictionary_object_to_node(graph, controlled_dict, n_exif_facet):
             NS_UCO_TYPES.value,
             v_value
         ))
+
+
+def init(tag_dict, file_info):
+
+    out_graph = rdflib.Graph()
+    out_graph.namespace_manager.bind("uco-core", NS_UCO_CORE)
+    out_graph.namespace_manager.bind("uco-location", NS_UCO_LOCATION)
+    out_graph.namespace_manager.bind("uco-observable", NS_UCO_OBSERVABLE)
+    out_graph.namespace_manager.bind("uco-types", NS_UCO_TYPES)
+    out_graph.namespace_manager.bind("uco-vocabulary", NS_UCO_VOCABULARY)
+
+    exif_facet_node, raster_facets_node, file_facets_node, content_facets = \
+        n_cyber_object_to_node(out_graph)
+    controlled_dictionary_object_to_node(out_graph, tag_dict, exif_facet_node)
+    filefacets_object_to_node(out_graph, file_facets_node, file_info)
+    raster_object_to_node(out_graph, tag_dict, raster_facets_node, file_info)
+    return out_graph

@@ -1,40 +1,33 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*
 
+"""Pillow to Case implementation"""
+
 import os
-import rdflib
 import json
 import logging
 import hashlib
 import argparse
-import exif_node_maker as case_maker
+import exif_node_maker as node_maker
 from PIL import Image
 from PIL.ExifTags import TAGS
 
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="file to extract exif from")
-parser.add_argument("outfile", help="file to write case json to")
+parser.add_argument("outfile", help="file to write case json to", default="case.json")
 args = parser.parse_args()
 
 __version__ = "0.1.0"
 
 _logger = logging.getLogger(os.path.basename(__file__))
-
-NS_RDF = rdflib.RDF
-NS_RDFS = rdflib.RDFS
-NS_UCO_CORE = rdflib.Namespace("https://unifiedcyberontology.org/ontology/uco/core#")
-NS_UCO_LOCATION = rdflib.Namespace("https://unifiedcyberontology.org/ontology/uco/location#")
-NS_UCO_OBSERVABLE = rdflib.Namespace("https://unifiedcyberontology.org/ontology/uco/observable#")
-NS_UCO_TYPES = rdflib.Namespace("https://unifiedcyberontology.org/ontology/uco/types#")
-NS_UCO_VOCABULARY = rdflib.Namespace("https://unifiedcyberontology.org/ontology/uco/vocabulary#")
-NS_XSD = rdflib.namespace.XSD
+_logger.setLevel(level=logging.DEBUG)
 
 
 def get_file_info(filepath):
     """
     A function to get some basic information about the file application being run against
     :param filepath: The relative path to the image
-    :return: A Dictinary with some information about the file
+    :return: A Dictionary with some information about the file
     """
     file_information = {}
     try:
@@ -48,13 +41,6 @@ def get_file_info(filepath):
     except ValueError as v_e:
         print(v_e)
     return file_information
-
-
-def print_to_errorlog(errors):
-    """
-    Write to a dedicated error log Currently writing to output but will be changed when reports and case being generated
-    """
-    print(errors)
 
 
 def get_exif_with_pillow(filename):
@@ -73,23 +59,16 @@ def get_labeled_exif_from_pillow(raw_exif):
 def main():
     """
     Main function to run the application
-    :return: prints out the case file - TODO: write to file instead
+    :return: prints out the case file
     """
     local_file = args.file
+
     file_info = get_file_info(local_file)
     tags = get_exif_with_pillow(local_file)
     tag_dict = get_labeled_exif_from_pillow(tags)
-    out_graph = rdflib.Graph()
-    out_graph.namespace_manager.bind("uco-core", NS_UCO_CORE)
-    out_graph.namespace_manager.bind("uco-location", NS_UCO_LOCATION)
-    out_graph.namespace_manager.bind("uco-observable", NS_UCO_OBSERVABLE)
-    out_graph.namespace_manager.bind("uco-types", NS_UCO_TYPES)
-    out_graph.namespace_manager.bind("uco-vocabulary", NS_UCO_VOCABULARY)
-    exif_facet_node, raster_facets_node, file_facets_node, content_facets =\
-        case_maker.n_cyber_object_to_node(out_graph)
-    case_maker.controlled_dictionary_object_to_node(out_graph, tag_dict, exif_facet_node)
-    case_maker.filefacets_object_to_node(out_graph, file_facets_node, file_info)
-    case_maker.raster_object_to_node(out_graph, tag_dict, raster_facets_node, file_info)
+    _logger.warning(f"Number of exif tags found in image '{local_file}' = {len(tag_dict)}")
+
+    node_graph = node_maker.init(tag_dict, file_info)
 
     context = {"kb": "http://example.org/kb/",
                "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -100,7 +79,7 @@ def main():
                "uco-types": "https://unifiedcyberontology.org/ontology/uco/types#",
                "xsd": "http://www.w3.org/2001/XMLSchema#"}
 
-    graphed = out_graph.serialize(format='json-ld', context=context)
+    graphed = node_graph.serialize(format='json-ld', context=context)
 
     graph = json.dumps(graphed, indent=4)
     case_json = json.loads(graph.encode('utf-8'))
@@ -110,5 +89,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
