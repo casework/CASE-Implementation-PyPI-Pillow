@@ -40,6 +40,8 @@ jobs:
       run: |
         pip -q install pre-commit
         pre-commit run --all-files
+      with:
+        max_line_length: 90
 
     - name: Lint with pylint
       run: |
