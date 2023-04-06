@@ -29,7 +29,8 @@ _logger.setLevel(level=logging.INFO)
 
 def n_cyber_object_to_node(graph):
     """
-    Initial function to create the blank nodes for each of the file's facet nodes
+    Initial function to create the blank nodes for each of
+    the file's facet nodes
     :param graph: rdflib graph object for adding nodes to
     :return: The four blank nodes for each fo the other functions to fill
     """
@@ -39,7 +40,13 @@ def n_cyber_object_to_node(graph):
     n_content_facets = rdflib.BNode()
     n_exif_facets = rdflib.BNode()
     graph.add((cyber_object_facet, NS_RDF.type, NS_UCO_OBSERVABLE.ObservableObject))
-    graph.add((cyber_object_facet, NS_UCO_OBSERVABLE.hasChanged, rdflib.Literal(False)))
+    graph.add(
+        (
+            cyber_object_facet,
+            NS_UCO_OBSERVABLE.hasChanged,
+            rdflib.Literal(False),
+        )
+    )
     graph.add((cyber_object_facet, NS_UCO_CORE.hasFacet, n_exif_facets))
     graph.add((cyber_object_facet, NS_UCO_CORE.hasFacet, n_raster_facets))
     graph.add((cyber_object_facet, NS_UCO_CORE.hasFacet, n_file_facets))
@@ -51,7 +58,7 @@ def filefacets_object_to_node(graph, n_file_facets, file_information):
     Adding file facet object to the graph object
     :param graph: rdflib graph object for adding nodes to
     :param n_file_facets: file facet node to add facets of file to
-    :param file_information: Dictionary containing information about file being analysed
+    :param file_information: Dictionary containing info about file analysed
     :return: None
     """
     file_name, ext = os.path.splitext(file_information["Filename"])
@@ -84,10 +91,10 @@ def filefacets_object_to_node(graph, n_file_facets, file_information):
 
 def filecontent_object_to_node(graph, n_content_facets, file_information):
     """
-    Unused: Create a node that will add the file content facet node to the graph
+    Unused: Create node to add the file content facet node to the graph
     :param graph: rdflib graph object for adding nodes to
-    :param n_content_facets: Blank node to contain all of the content facet information
-    :param file_information: Dictionary containing information about file being analysed
+    :param n_content_facets: Blank node to contain content facet information
+    :param file_information: Dictionary containing info about file analysed
     :return: None
     """
     byte_order_facet = rdflib.BNode()
@@ -101,7 +108,13 @@ def filecontent_object_to_node(graph, n_content_facets, file_information):
             NS_UCO_VOCABULARY.EndiannessTypeVocab,
         )
     )
-    graph.add((byte_order_facet, NS_UCO_VOCABULARY.value, rdflib.Literal("Big-endian")))
+    graph.add(
+        (
+            byte_order_facet,
+            NS_UCO_VOCABULARY.value,
+            rdflib.Literal("Big-endian"),
+        )
+    )
     if "mimetype" in file_information.keys():
         graph.add(
             (
@@ -126,16 +139,20 @@ def raster_object_to_node(graph, controlled_dict, n_raster_facets, file_informat
     """
     Adding file's raster facet objects to the graph object
     :param graph: rdflib graph object for adding nodes to
-    :param controlled_dict: Dictionary containing the EXIF information from image
+    :param controlled_dict: Dictionary containing EXIF information from image
     :param n_raster_facets: raster facet node to add raster facets of file to
-    :param file_information: Dictionary containing information about file being analysed
+    :param file_information: Dictionary containing info about file analysed
     :return: None
     """
     file_name, ext = os.path.splitext(file_information["Filename"])
     file_ext = ext[1:]
     graph.add((n_raster_facets, NS_RDF.type, NS_UCO_OBSERVABLE.RasterPictureFacet))
     graph.add(
-        (n_raster_facets, NS_UCO_OBSERVABLE.pictureType, rdflib.Literal(file_ext))
+        (
+            n_raster_facets,
+            NS_UCO_OBSERVABLE.pictureType,
+            rdflib.Literal(file_ext),
+        )
     )
     # :TODO The below feels a bit hacky probably a better way to do it
     if "EXIF ExifImageLength" in controlled_dict.keys():
@@ -227,7 +244,13 @@ def controlled_dictionary_object_to_node(graph, controlled_dict, n_exif_facet):
     n_controlled_dictionary = rdflib.BNode()
     graph.add((n_exif_facet, NS_RDF.type, NS_UCO_OBSERVABLE.EXIFFacet))
     graph.add((n_exif_facet, NS_UCO_OBSERVABLE.exifData, n_controlled_dictionary))
-    graph.add((n_controlled_dictionary, NS_RDF.type, NS_UCO_TYPES.ControlledDictionary))
+    graph.add(
+        (
+            n_controlled_dictionary,
+            NS_RDF.type,
+            NS_UCO_TYPES.ControlledDictionary,
+        )
+    )
     for key in sorted(controlled_dict.keys()):
         # :TODO stringing all values to ensure they are strings, open to input
         #  here as maybe assertion or a better way to do this
