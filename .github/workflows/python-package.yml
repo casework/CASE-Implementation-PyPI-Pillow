@@ -48,7 +48,7 @@ jobs:
 
     # Run the CASE validation job to confirm all examples in pillow_output_examples are valid
     - name: CASE Export Validation
-      uses: kchason/case-validation-action@v2.7.0
+      uses: kchason/case-validation-action@v2.8.0
       with:
         case-path: ./pillow_output_examples/
         case-version: "case-1.2.0"
