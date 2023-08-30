@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11"]
 
     steps:
     - uses: actions/checkout@v3
@@ -48,7 +48,7 @@ jobs:
 
     # Run the CASE validation job to confirm all examples in pillow_output_examples are valid
     - name: CASE Export Validation
-      uses: kchason/case-validation-action@v2.6
+      uses: kchason/case-validation-action@v2.8.0
       with:
         case-path: ./pillow_output_examples/
         case-version: "case-1.2.0"
