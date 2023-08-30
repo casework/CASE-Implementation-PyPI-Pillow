@@ -4,15 +4,16 @@
 # CASE-Implementation-Pillow
 A repository for the development of a [Pillow](https://pypi.org/project/Pillow/) to [CASE](https://caseontology.org) implementation.
 
-# Usage
+## Usage
 > Use of a python virtual environment suggested
 
-```cd CASE-Implementation-PyPI-Pillow```
+```bash
+cd CASE-Implementation-PyPI-Pillow
+pip install .
+pillow2case <nameof.jpeg> <output.json>
+```
 
-```pip install .```
-
-```pillow2case <nameof.jpeg> <output.json>```
-# Development Status
+## Development Status
 This repository follows CASE community guidance on describing [development status](https://caseontology.org/resources/github_policies.html#development-statuses), by adherence to noted support requirements.
 
 The status of this repository is:
