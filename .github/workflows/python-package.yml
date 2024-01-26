@@ -31,7 +31,7 @@ jobs:
       run: |
         python -m venv development
         . development/bin/activate
-        python -m pip install --upgrade pip
+        python -m pip install --upgrade pip setuptools
         python -m pip install pylint pytest rdflib
         python setup.py install
         pillow2case --help
