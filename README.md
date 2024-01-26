@@ -1,5 +1,5 @@
 [![CASE-Implementation-PyPI-Pillow](https://github.com/casework/CASE-Implementation-PyPI-Pillow/actions/workflows/python-package.yml/badge.svg)](https://github.com/casework/CASE-Implementation-PyPI-Pillow/actions/workflows/python-package.yml)
-![CASE Version](https://img.shields.io/badge/CASE%20Version-1.2.0-brightgreen)
+![CASE Version](https://img.shields.io/badge/CASE%20Version-1.3.0-brightgreen)
 
 # CASE-Implementation-Pillow
 A repository for the development of a [Pillow](https://pypi.org/project/Pillow/) to [CASE](https://caseontology.org) implementation.
